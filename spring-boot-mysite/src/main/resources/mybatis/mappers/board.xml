@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<select id="getList" resultType="boardvo" parameterType="int">
+		<![CDATA[
+		 select board.no as no,board.title as title,board.contents as contents,board.write_date as writeDate,board.hit as hit,board.g_no as gNo,board.o_no as oNo,board.depth as depth,board.file_name as fileName,user.no as userNo,user.name as userName from board,user where board.user_no = user.no order by board.g_no DESC, board.o_no ASC limit #{page},10;
+			]]>
+	</select>
+
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+		insert into board values (null, #{title}, #{contents}, CURRENT_TIMESTAMP(), 0, (select IFNULL(max(g_no), 0) + 1 from board a),  0, 0, #{userNo},#{fileName})
+		]]>
+	</insert>
+
+	<delete id="delete" parameterType="string">
+	<![CDATA[
+	delete from board where no=#{no}
+	]]>
+	</delete>
+
+	<update id="hit" parameterType="string">
+		<![CDATA[
+			update board set hit=hit+1 where no=#{no}
+		]]>
+	</update>
+
+	<select id="view" parameterType="long" resultType="boardvo">
+	<![CDATA[
+	select board.no as no,title,contents,o_no as oNo,g_no as gNo,file_name as fileName ,user.no as userNo from board,user where board.no=#{no} and user.no = board.user_no
+	]]>
+	</select>
+
+	
+	
+	<update id="modify" parameterType="boardvo">
+		<![CDATA[
+		update board set title=#{title},contents=#{contents} where no=#{no}
+		]]>
+	</update>
+	<select id="replyWrite0" parameterType="long" resultType="boardvo">
+	<![CDATA[
+		select no,title,contents,write_date as writeDate,hit,g_no as gNo,o_no as oNo,depth,user_no as userNo from board where no=#{no}
+		]]>
+	</select>
+	
+	<update id="replyWrite1" parameterType="boardvo">
+	<![CDATA[
+	update board set o_no=o_no+1 where o_no > #{oNo}
+		]]>
+	</update>
+	
+	<insert id="replyWrite2" parameterType="boardvo">
+	<![CDATA[
+	insert into board value(null,#{title},#{contents},current_timestamp(),0,#{gNo}
+		,#{depth}+1,#{oNo}+1,#{userNo},null)
+		]]>
+	</insert>
+
+	<insert id="commentWrite" parameterType="map">
+		<![CDATA[
+		insert into comment values(null,#{contents},current_timestamp(),(select max(b.o_no)+1 from board a,comment b where a.no=#{boardNo}),#{boardNo},#{userNo})
+		]]>
+	</insert>
+	
+	<select id="commentList" resultType="commentvo" parameterType="map">
+	<![CDATA[
+	select a.no as no,a.contents as contents,a.reg_date as regDate,a.o_no as oNo,a.board_no as boardNo,a.user_no as userNo,b.name as userName from comment a,user b where a.board_no=#{boardNo} and b.no=a.user_no order by a.o_no asc limit #{page},10;
+		]]>
+	</select>
+	
+	<delete id="commentDelete" parameterType="string">
+		<![CDATA[
+		delete from comment where no=#{no}
+		]]>
+	</delete>
+	
+	<select id="commentCount" resultType="int" parameterType="string">
+	<![CDATA[
+	select count(no) from comment where board_no=#{value}
+		]]>
+	</select>
+	
+	<select id="boardCount" resultType="int">
+		<![CDATA[
+	        select count(*) from board
+		]]>
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+	<![CDATA[
+	        select count(board.no) from board,user where board.user_no = user.no and ${way} like '%${text}%'
+		]]>
+	</select>
+	
+	<select id="getSearchList" parameterType="map" resultType="boardvo" >
+	<![CDATA[
+	select board.no as no,board.title as title ,board.contents as contents , board.write_date as writeDate,board.hit as hit,board.g_no as gNo,board.o_no as oNo,board.depth as depth,user.no as userNo,user.name as userName from board,user where board.user_no = user.no and ${way} like '%${text}%' order by g_no DESC, o_no ASC limit #{page},10
+		]]>
+	</select>
+	
+	<select id="getFileNameByNo" parameterType="String" resultType="String">
+	<![CDATA[
+	select file_name as fileName from board where no = #{no} 
+		]]>
+	</select>
+
+</mapper>
