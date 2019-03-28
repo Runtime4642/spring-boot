@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 import com.douzone.mysite.config.web.ResourceMappingConfig;
 import com.douzone.mysite.config.web.SecurityConfig;
 
-@Configuration
+@Configuration  //bootapplication 과 같은 패키지 안에 있어서 자동 검색됨
 //@EnableWebMvc   //<mvc:anntaion-driven/> 이랑 똑같음.. defaultservlethandler 랑 같음
 //@ComponentScan(value= {"com.douzone.mysite.controller","com.douzone.mysite.exception"})
 @Import(value= {SecurityConfig.class,ResourceMappingConfig.class})

@@ -11,14 +11,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import com.douzone.dto.JSONResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
+//@Slf4j lombok
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
 	private static final Log LOG = LogFactory.getLog( GlobalExceptionHandler.class );
+	
 	@ExceptionHandler(Exception.class)
 	public void handlerException(HttpServletRequest request,HttpServletResponse response,Exception e) throws Exception {
 		
@@ -30,7 +32,7 @@ public class GlobalExceptionHandler {
 		
 		
 		//서비스할때는 log 찍어줘야함 -> 에러내용 파일저장
-		//LOG.error(errors.toString());
+		LOG.error(errors.toString());
 		
 		
 		

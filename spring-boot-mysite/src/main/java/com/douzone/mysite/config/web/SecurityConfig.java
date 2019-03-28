@@ -17,9 +17,6 @@ import com.douzone.security.AuthUserHandlerMethodArgumentResolver;
 @Configuration
 public class SecurityConfig implements WebMvcConfigurer{
 
-	
-	
-	
 	// Argument Resolver
 	@Bean
 	public AuthUserHandlerMethodArgumentResolver authUserHandlerMethodArgumentResolver() {

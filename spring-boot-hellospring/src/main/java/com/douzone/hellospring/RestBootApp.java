@@ -30,8 +30,8 @@ public class RestBootApp {
 		}
 	}
 	
-	public static void main(String[] args) {
-		SpringApplication.run(BootApplication.class, args);
-	}
+//	public static void main(String[] args) {
+//		SpringApplication.run(BootApplication.class, args);
+//	}
 
 }

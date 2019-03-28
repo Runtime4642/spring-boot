@@ -8,8 +8,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 //@SpringBootConfiguration
 //@EnableAutoConfiguration
 //@ComponentScan("com.douzone.hellospring.controller") 
-@EnableAspectJAutoProxy
-@SpringBootApplication
+//@EnableAspectJAutoProxy
+@SpringBootApplication //얘가 autoproxy도 해주는듯
 public class BootApplication {
 
 	

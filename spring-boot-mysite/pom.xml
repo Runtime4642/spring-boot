@@ -2,12 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<artifactId>spring-boot-mysite</artifactId>
+	<packaging>war</packaging>
 	<parent>
 		<groupId>com.douzone</groupId>
 		<artifactId>spring-boot</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>spring-boot-mysite</artifactId>
 
 	<dependencies>
 		<!-- boot web starter -->
@@ -37,14 +38,20 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.3.2</version>
 		</dependency>
+		
+		  <!-- spring boot aop starter -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
 
-		<!-- jstl / jasper -->
+		<!-- jstl  --> 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
 
-
+		<!-- jasper : view resolver 자동 설정 -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
@@ -77,14 +84,35 @@
 			
 		</dependency>-->
 
-		<!-- spring aspect -->
-		<dependency>
-		    	<groupId>org.springframework</groupId>
-		    	<artifactId>spring-aspects</artifactId>
-		    	<version>4.3.18.RELEASE</version>
-		</dependency>
+	
 
 	</dependencies>
-
+	
+	<build>
+		<finalName>${artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+				</configuration>
+			</plugin>
+			
+			<!-- jenkins 사용 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<configuration>
+					<url>http://127.0.0.1:8080/manager/text</url>
+					<path>/mysite3</path>
+					<username>power2764</username>
+					<password>12345652</password>
+				</configuration>
+			</plugin>
+			
+			
+		</plugins>
+	</build>
 
 </project>

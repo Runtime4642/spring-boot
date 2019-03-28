@@ -21,4 +21,9 @@ public class UserController {
 	public JSONResult checkEmail(@RequestParam(value="email",required=true,defaultValue="")String email){
 		return JSONResult.success(userService.existEmail(email));
 	}
+	@ResponseBody
+	@RequestMapping("/hello")
+	public String check(@RequestParam(value="hi",required=true,defaultValue="")String email){
+		return email;
+	}
 }
